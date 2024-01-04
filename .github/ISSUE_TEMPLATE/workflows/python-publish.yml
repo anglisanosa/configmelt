@@ -1,0 +1,29 @@
+name: Deploy Package Workflow
+on:
+  workflow_dispatch:
+    inputs:
+      version_name:
+        description: 'Version to deploy'
+        required: true
+        type: choice
+        options:
+          - 'major'
+          - 'minor'
+          - 'patch'
+        default: 'patch'
+
+permissions:
+  contents: write
+
+jobs:
+
+  bump_2_next_version:
+    uses: anglisanosa/ci_cd_templates/.github/workflows/bump2version.yml@v1
+    with:
+      version_name: ${{ github.event.inputs.version_name }}
+
+  deploy_local_template:
+    needs: bump_2_next_version
+    uses: anglisanosa/ci_cd_templates/.github/workflows/deploy_pypi_package.yml@v1
+    secrets:
+      PYPI_API_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
