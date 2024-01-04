@@ -1,2 +1,4 @@
-
+pathutility == 1.0.*
+pyaml_env
+jsonschema
 
