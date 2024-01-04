@@ -18,7 +18,7 @@ class TestConfigMeld(unittest.TestCase):
         yaml_file = os.path.join(
             os.path.dirname(os.path.dirname(__file__)), 
             'resources', 
-            'yaml_example.json'
+            'yaml_example.yml'
         )
         cm_yaml = ConfigMeld.load_config_from_file(yaml_file)
         self.assertIsInstance(cm_yaml, ConfigMeld)
