@@ -1,8 +1,6 @@
 import unittest
 import os
 from configmelt import ConfigMeld
-import  configmelt._routing as r
-json_file=os.path.join(os.path.dirname(os.path.dirname(r)), 'resources', 'json_example.json')
 
 
 class TestConfigMeld(unittest.TestCase):
