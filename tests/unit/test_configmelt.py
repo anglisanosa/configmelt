@@ -1,17 +1,27 @@
 import unittest
 import os
 from configmelt import ConfigMeld
+import  configmelt._routing as r
+json_file=os.path.join(os.path.dirname(os.path.dirname(r)), 'resources', 'json_example.json')
 
 
 class TestConfigMeld(unittest.TestCase):
     def test_load_config_from_file(self):
         # Test loading configuration from a JSON file
-        json_file = r'tests\resources\json_example.json'
+        json_file = os.path.join(
+            os.path.dirname(os.path.dirname(__file__)), 
+            'resources', 
+            'json_example.json'
+        )
         cm_json = ConfigMeld.load_config_from_file(json_file)
         self.assertIsInstance(cm_json, ConfigMeld)
 
         # Test loading configuration from a YAML file
-        yaml_file = r'tests\resources\yaml_example.yml'
+        yaml_file = os.path.join(
+            os.path.dirname(os.path.dirname(__file__)), 
+            'resources', 
+            'yaml_example.json'
+        )
         cm_yaml = ConfigMeld.load_config_from_file(yaml_file)
         self.assertIsInstance(cm_yaml, ConfigMeld)
 
