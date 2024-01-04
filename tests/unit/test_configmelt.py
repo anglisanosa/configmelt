@@ -6,12 +6,12 @@ from configmelt import ConfigMeld
 class TestConfigMeld(unittest.TestCase):
     def test_load_config_from_file(self):
         # Test loading configuration from a JSON file
-        json_file = 'path/to/config.json'
+        json_file = r'tests\resources\json_example.json'
         cm_json = ConfigMeld.load_config_from_file(json_file)
         self.assertIsInstance(cm_json, ConfigMeld)
 
         # Test loading configuration from a YAML file
-        yaml_file = 'path/to/config.yaml'
+        yaml_file = r'tests\resources\yaml_example.yml'
         cm_yaml = ConfigMeld.load_config_from_file(yaml_file)
         self.assertIsInstance(cm_yaml, ConfigMeld)
 

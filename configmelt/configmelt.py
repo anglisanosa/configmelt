@@ -254,11 +254,4 @@ class ConfigMeld(Mapping):
                 schema[key] = {"type": type(value).__name__}
         return schema
 
-if __name__ == "__main__":
-    file=r'configmelt\utils\yaml_example.yml'
-    cm=ConfigMeld.load_config_from_file(file)
-    print(cm)
-    print(cm.a)
-    cm.generate_schema()
-    
     
