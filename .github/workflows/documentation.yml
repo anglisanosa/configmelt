@@ -12,6 +12,6 @@ permissions:
 
 jobs:
   deploy_local_template:
-    uses: anglisanosa/ci_cd_templates/.github/workflows/gh_pages_documentation.yml@v1
+    uses: anglisanosa/ci_cd_templates/.github/workflows/gh_pages_documentation.yml@v2
     secrets:
       githubtoken: ${{ secrets.GITHUB_TOKEN }}
