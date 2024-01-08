@@ -1,0 +1,28 @@
+{
+    "type" : "object",
+    "properties" : {
+        "a": {
+            "type": "int"
+        },
+        "b": {
+            "type": "int"
+        },
+        "c": {
+            "type": "array",
+            "items": {
+                "type": "int"
+            }
+        },
+        "d": {
+            "type": "object",
+            "properties": {
+                "e": {
+                    "type": "int"
+                },
+                "f": {
+                    "type": "int"
+                }
+            }
+        }
+    }
+}
