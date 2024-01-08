@@ -9,8 +9,10 @@ Relase Notes
    * - Version
      - Authors
      - Release Notes
-   * - <version>
-     - anglisanosa AI team
-     - Here the comments of the release.
-   
+   * - 1.0.0
+     - anglisano
+     - first relase, with basic funcionality.
+   * - 1.0.2
+     - anglisano
+     - add sphinx documentation.   
 

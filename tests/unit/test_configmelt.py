@@ -42,12 +42,15 @@ class TestConfigMeld(unittest.TestCase):
         cm = ConfigMeld(a=1, b=2, c={'x': 3, 'y': 4})
         schema = cm.generate_schema()
         self.assertIsInstance(schema, dict)
-        self.assertIn('a', schema)
-        self.assertIn('b', schema)
-        self.assertIn('c', schema)
-        self.assertEqual(schema['a'], {'type': 'int'})
-        self.assertEqual(schema['b'], {'type': 'int'})
-        self.assertEqual(schema['c'], {'type': 'object', 'properties': {'x': {'type': 'int'}, 'y': {'type': 'int'}}})
+        self.assertIn('a', schema['properties'])
+        self.assertIn('b', schema['properties'])
+        self.assertIn('c', schema['properties'])
+        self.assertEqual(schema['properties']['a'], {'type': 'integer'})
+        self.assertEqual(schema['properties']['b'], {'type': 'integer'})
+        self.assertEqual(
+            schema['properties']['c'], 
+            {'type': 'object', 'properties': {'x': {'type': 'integer'}, 'y': {'type': 'integer'}},'required': ['x', 'y']}
+        )
 
 
 # if __name__ == '__main__':

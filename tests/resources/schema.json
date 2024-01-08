@@ -1,0 +1,40 @@
+{
+    "type": "object",
+    "properties": {
+        "a": {
+            "type": "string"
+        },
+        "b": {
+            "type": "integer"
+        },
+        "c": {
+            "type": "array",
+            "items": {
+                "type": "integer"
+            },
+            "minItems": 3,
+            "maxItems": 3
+        },
+        "d": {
+            "type": "object",
+            "properties": {
+                "e": {
+                    "type": "integer"
+                },
+                "f": {
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "e",
+                "f"
+            ]
+        }
+    },
+    "required": [
+        "a",
+        "b",
+        "c",
+        "d"
+    ]
+}
