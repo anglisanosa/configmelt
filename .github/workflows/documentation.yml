@@ -2,17 +2,16 @@ name: documentation
 
 
 on: 
-  workflow_dispatch:
-  # workflow_run:
-  #   workflows: ["Deploy Package Workflow"]
-  #   types:
-  #     - completed
+  workflow_run:
+    workflows: ["Deploy Package Workflow"]
+    types:
+      - completed
 
 permissions:
   contents: write
 
 jobs:
   deploy_local_template:
-    uses: anglisanosa/ci_cd_templates/.github/workflows/gh_pages_documentation.yml@main
+    uses: anglisanosa/ci_cd_templates/.github/workflows/gh_pages_documentation.yml@v1
     secrets:
       githubtoken: ${{ secrets.GITHUB_TOKEN }}
