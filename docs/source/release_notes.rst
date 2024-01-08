@@ -12,7 +12,7 @@ Relase Notes
    * - 1.0.0
      - anglisano
      - first relase, with basic funcionality.
-   * - 1.0.2
+   * - 1.0.3
      - anglisano
      - add sphinx documentation.   
 
