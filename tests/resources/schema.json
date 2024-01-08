@@ -1,28 +1,40 @@
 {
-    "type" : "object",
-    "properties" : {
+    "type": "object",
+    "properties": {
         "a": {
-            "type": "int"
+            "type": "string"
         },
         "b": {
-            "type": "int"
+            "type": "integer"
         },
         "c": {
             "type": "array",
             "items": {
-                "type": "int"
-            }
+                "type": "integer"
+            },
+            "minItems": 3,
+            "maxItems": 3
         },
         "d": {
             "type": "object",
             "properties": {
                 "e": {
-                    "type": "int"
+                    "type": "integer"
                 },
                 "f": {
-                    "type": "int"
+                    "type": "integer"
                 }
-            }
+            },
+            "required": [
+                "e",
+                "f"
+            ]
         }
-    }
+    },
+    "required": [
+        "a",
+        "b",
+        "c",
+        "d"
+    ]
 }
