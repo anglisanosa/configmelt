@@ -188,7 +188,8 @@ class ConfigMeld(Mapping):
 
         if schema_validator is not None:
             schema = cls._read_file(schema_validator)
-            validate(config_data, schema)
+            validate(config_data, dict(schema))
+            
 
         return cls(**config_data)
 
@@ -222,7 +223,27 @@ class ConfigMeld(Mapping):
             k: v.load_config_as_kwargs() if isinstance(v, ConfigMeld)
             else v for k, v in self.__dict__.items()
         }
+    def map_to_jsonschema_type(self, python_type) -> str:
+        """
+        Map Python types to JSONSchema types.
 
+        Args:
+            python_type (type): The Python type.
+
+        Returns:
+            str: JSONSchema equivalent type.
+        """
+        type_mapping = {
+            int: "integer",
+            str: "string",
+            float: "number",
+            bool: "boolean",
+            dict: "object",
+            list: "array",
+            tuple: "array"
+            # Add more mappings as needed
+        }
+        return type_mapping.get(python_type, "any")
     def generate_schema(self) -> dict:
         """
         Generate a JSON schema based on existing configurations.
@@ -230,28 +251,55 @@ class ConfigMeld(Mapping):
         Returns:
             dict: The generated JSON schema.
         """
-        schema = {}
-        for key, value in self.load_config_as_kwargs().items():
+        def generate_single_schema(value):
             if isinstance(value, ConfigMeld):
-                schema[key] = value.generate_schema()
-            elif isinstance(value, list) and value:
-                # If it's a non-empty list, create a schema for its elements
+                return value.generate_schema()
+            elif isinstance(value, (list, tuple)) and value:
+                # If it's a non-empty list or tuple, create a schema for its elements
                 elem = value[0] if len(value) > 0 else None
-                if isinstance(elem, ConfigMeld):
-                    schema[key] = [elem.generate_schema()]
-                else:
-                    schema[key] = {
-                        "type": "array",
-                        "items": {"type": type(elem).__name__}
-                    }
+                inner_schema = {"type": "array", "items": {"type": self.map_to_jsonschema_type(type(elem))}}
+                inner_schema['minItems']=len(value) if len(value)>0 else 0
+                inner_schema['maxItems']=len(value)
+                return inner_schema
             elif isinstance(value, dict):
                 # Handle nested dictionaries
-                inner_schema = {}
-                for k, v in value.items():
-                    inner_schema[k] = {"type": type(v).__name__}
-                schema[key] = {"type": "object", "properties": inner_schema}
+                inner_schema = {k: {"type": self.map_to_jsonschema_type(type(v))} for k, v in value.items()}
+                required_fields = [k for k, _ in inner_schema.items() ]
+                schema = {"type": "object", "properties": inner_schema}
+                schema["required"] = required_fields
+                return schema
             else:
-                schema[key] = {"type": type(value).__name__}
+                return {"type": self.map_to_jsonschema_type(type(value))}
+
+        schema = {key: generate_single_schema(value) for key, value in self.load_config_as_kwargs().items()}
+        required_fields = [key for key, _ in schema.items()]
+        schema = {"type": "object", "properties": schema}
+        schema["required"] = required_fields
+        return schema
+        # schema = {}
+        # for key, value in self.load_config_as_kwargs().items():
+        #     if isinstance(value, ConfigMeld):
+        #         schema[key] = value.generate_schema()
+        #     elif isinstance(value, list) and value:
+        #         # If it's a non-empty list, create a schema for its elements
+        #         elem = value[0] if len(value) > 0 else None
+        #         if isinstance(elem, ConfigMeld):
+        #             schema[key] = [elem.generate_schema()]
+        #         else:
+        #             schema[key] = {
+        #                 "type": "array",
+        #                 "items": {"type": type(elem).__name__}
+        #             }
+        #     elif isinstance(value, dict):
+        #         # Handle nested dictionaries
+        #         inner_schema = {}
+        #         for k, v in value.items():
+        #             inner_schema[k] = {"type": type(v).__name__}
+        #         schema[key] = {"type": "object", "properties": inner_schema}
+        #     else:
+        #         schema[key] = {"type": type(value).__name__}
+                
+                
         return schema
 
     
