@@ -276,30 +276,6 @@ class ConfigMeld(Mapping):
         schema = {"type": "object", "properties": schema}
         schema["required"] = required_fields
         return schema
-        # schema = {}
-        # for key, value in self.load_config_as_kwargs().items():
-        #     if isinstance(value, ConfigMeld):
-        #         schema[key] = value.generate_schema()
-        #     elif isinstance(value, list) and value:
-        #         # If it's a non-empty list, create a schema for its elements
-        #         elem = value[0] if len(value) > 0 else None
-        #         if isinstance(elem, ConfigMeld):
-        #             schema[key] = [elem.generate_schema()]
-        #         else:
-        #             schema[key] = {
-        #                 "type": "array",
-        #                 "items": {"type": type(elem).__name__}
-        #             }
-        #     elif isinstance(value, dict):
-        #         # Handle nested dictionaries
-        #         inner_schema = {}
-        #         for k, v in value.items():
-        #             inner_schema[k] = {"type": type(v).__name__}
-        #         schema[key] = {"type": "object", "properties": inner_schema}
-        #     else:
-        #         schema[key] = {"type": type(value).__name__}
-                
-                
-        return schema
+
 
     
